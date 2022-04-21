@@ -10,6 +10,16 @@ import UIKit
 class CustomCell: UITableViewCell {
     
     var isFavorite = false
+    {
+        willSet {
+            if newValue {
+                favoriteBtn.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+            }else{
+                favoriteBtn.setImage(UIImage(systemName: "heart"), for: .normal)
+            }
+            
+        }
+    }
     
     var anime:animeData? = nil
     {
@@ -36,6 +46,13 @@ class CustomCell: UITableViewCell {
             }
         }
     }
+    
+    private var favoriteBtn:UIButton = {
+        let btn = UIButton()
+        btn.setImage(UIImage(systemName: "heart"), for: .normal)
+        btn.imageView?.contentMode = .scaleAspectFit
+        return btn
+    }()
 
     private var imageview:UIImageView = {
         let imageview = UIImageView()
@@ -43,11 +60,21 @@ class CustomCell: UITableViewCell {
         return imageview
     }()
     
-    private let stackView:UIStackView = {
+    private let leftStackView:UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.distribution = .equalCentering
         stackView.alignment = .leading
+        stackView.spacing = 5
+        stackView.backgroundColor = .clear
+        return stackView
+    }()
+    
+    private let rightStackView:UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.distribution = .equalCentering
+        stackView.alignment = .center
         stackView.spacing = 5
         stackView.backgroundColor = .clear
         return stackView
@@ -109,23 +136,14 @@ class CustomCell: UITableViewCell {
     
     private func UIInit(){
         self.selectionStyle = .none
-        addSubview(imageview)
+        addSubview(leftStackView)
         
-        imageview.translatesAutoresizingMaskIntoConstraints = false
+        leftStackView.translatesAutoresizingMaskIntoConstraints = false
         
-        imageview.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
-        imageview.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
-        imageview.widthAnchor.constraint(equalToConstant: 50).isActive = true
-        imageview.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        
-        addSubview(stackView)
-        
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        
-        stackView.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
-        stackView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
-        stackView.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.7).isActive = true
-        stackView.heightAnchor.constraint(equalTo: self.heightAnchor).isActive = true
+        leftStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
+        leftStackView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
+        leftStackView.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.7).isActive = true
+        leftStackView.heightAnchor.constraint(equalTo: self.heightAnchor).isActive = true
         
         let widthSize:CGFloat = self.frame.width/1.2
         let heightSize:CGFloat = 30
@@ -143,10 +161,30 @@ class CustomCell: UITableViewCell {
         endDateLabel.heightAnchor.constraint(equalToConstant: heightSize).isActive = true
         
         
-        stackView.addArrangedSubview(titleLabel)
-        stackView.addArrangedSubview(rankLabel)
-        stackView.addArrangedSubview(startDateLabel)
-        stackView.addArrangedSubview(endDateLabel)
+        leftStackView.addArrangedSubview(titleLabel)
+        leftStackView.addArrangedSubview(rankLabel)
+        leftStackView.addArrangedSubview(startDateLabel)
+        leftStackView.addArrangedSubview(endDateLabel)
+        
+        addSubview(rightStackView)
+        
+        rightStackView.translatesAutoresizingMaskIntoConstraints = false
+        
+        rightStackView.leadingAnchor.constraint(equalTo: leftStackView.trailingAnchor).isActive = true
+        rightStackView.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
+        rightStackView.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.3).isActive = true
+        rightStackView.heightAnchor.constraint(equalTo: self.heightAnchor).isActive = true
+        
+        imageview.widthAnchor.constraint(equalToConstant: 40).isActive = true
+        imageview.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        
+        favoriteBtn.widthAnchor.constraint(equalToConstant: 40).isActive = true
+        favoriteBtn.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        
+        rightStackView.addArrangedSubview(imageview)
+        rightStackView.addArrangedSubview(favoriteBtn)
+        
+        
     }
     
     private func addGesture(){
