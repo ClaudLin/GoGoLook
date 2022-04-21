@@ -9,6 +9,14 @@ import UIKit
 
 class ViewController: UIViewController {
     
+    private var btn:UIButton = {
+        let btn = UIButton()
+        btn.setTitle("My favorite", for: .normal)
+        btn.setTitleColor(.black, for: .normal)
+        btn.addTarget(self, action: #selector(btnAction(btn:)), for: .touchUpInside)
+        return btn
+    }()
+    
     private var tableview:UITableView = {
         let tableview = UITableView()
         tableview.register(UINib(nibName: "CustomCell", bundle: nil), forCellReuseIdentifier: "CustomCell")
@@ -29,6 +37,13 @@ class ViewController: UIViewController {
         }
     }
     
+    @objc private func btnAction( btn:UIButton){
+        let VC = FavoriteVC()
+        navigationController?.pushViewController(VC, animated: true)
+    }
+    
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "List"
@@ -48,17 +63,25 @@ class ViewController: UIViewController {
     }
     
     private func UIInit(){
+        view.addSubview(btn)
         
+        btn.translatesAutoresizingMaskIntoConstraints = false
+        
+        btn.topAnchor.constraint(equalTo: view.topAnchor, constant: getFrame().minY).isActive = true
+        btn.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        btn.widthAnchor.constraint(equalToConstant: 100).isActive = true
+        btn.heightAnchor.constraint(equalToConstant: 50).isActive = true
+
         tableview.delegate = self
         tableview.dataSource = self
         view.addSubview(tableview)
-        
+                
         tableview.translatesAutoresizingMaskIntoConstraints = false
-        
-        tableview.topAnchor.constraint(equalTo: view.topAnchor, constant: getFrame().minY).isActive = true
+
+        tableview.topAnchor.constraint(equalTo: btn.bottomAnchor).isActive = true
         tableview.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         tableview.widthAnchor.constraint(equalToConstant: getFrame().width).isActive = true
-        tableview.heightAnchor.constraint(equalToConstant: getFrame().height).isActive = true
+        tableview.heightAnchor.constraint(equalToConstant: getFrame().height - 50).isActive = true
     }
     
     private func getData(){
@@ -155,7 +178,7 @@ extension ViewController: UITableViewDelegate {
             if let urlStr = info.url, info.url != "" {
                 if let url = URL(string: urlStr){
                     let VC = WebviewVC(url: url)
-                    navigationController?.pushViewController(VC, animated: false)
+                    navigationController?.pushViewController(VC, animated: true)
                 }
             }
         }
@@ -164,7 +187,7 @@ extension ViewController: UITableViewDelegate {
             if let urlStr = info.url, info.url != "" {
                 if let url = URL(string: urlStr){
                     let VC = WebviewVC(url: url)
-                    navigationController?.pushViewController(VC, animated: false)
+                    navigationController?.pushViewController(VC, animated: true)
                 }
             }
         }

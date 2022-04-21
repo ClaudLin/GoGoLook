@@ -37,6 +37,7 @@ class FavoriteVC: UIViewController {
     }
     
     private func UIInit(){
+        
         tableview.delegate = self
         tableview.dataSource = self
         view.addSubview(tableview)
