@@ -11,42 +11,52 @@ class FavoriteModel {
     
     static let shared = FavoriteModel()
     
-    private var favoriteAnimeArr = UserDefaults.standard.value(forKey: UserDefaultKeyName.anime.rawValue) as? animeInfo ?? nil
+    private var favoriteAnimeArr = UserDefaults.standard.value(forKey: UserDefaultKeyName.anime.rawValue) as? [animeData] ?? []
     {
-        willSet {
-            UserDefaults.standard.set(newValue, forKey: UserDefaultKeyName.anime.rawValue)
+        willSet{
+            print(newValue)
         }
     }
     
-
-    private var favoriteMangaArr = UserDefaults.standard.value(forKey: UserDefaultKeyName.manga.rawValue) as? mangaInfo ?? nil
-    {
-        willSet {
-            UserDefaults.standard.set(newValue, forKey: UserDefaultKeyName.manga.rawValue)
-        }
-    }
+    private var favoriteMangaArr = UserDefaults.standard.value(forKey: UserDefaultKeyName.manga.rawValue) as? [mangaData] ?? []
+    
 
     func addAnimeFavorite(newAnimeData:animeData){
-        var total:[animeData] = favoriteAnimeArr?.animeArr ?? []
-        total.append(newAnimeData)
+        favoriteAnimeArr.append(newAnimeData)
         var uniqueSet = Set<Int>()
-        total = total.filter { data in
+        favoriteAnimeArr = favoriteAnimeArr.filter { data in
             uniqueSet.insert(data.mal_id ?? 0).inserted
         }
-        total.sort{$0.rank! < $1.rank!}
-        favoriteAnimeArr?.animeArr = total
+        favoriteAnimeArr.sort{$0.rank! < $1.rank!}
+        UserDefaults.standard.set(try? PropertyListEncoder().encode(favoriteAnimeArr), forKey: UserDefaultKeyName.anime.rawValue)
     }
     
     func addMangaFavorite(newMangaData:mangaData){
-        var total = favoriteMangaArr?.mangaArr ?? []
-        total.append(newMangaData)
+        favoriteMangaArr.append(newMangaData)
         var uniqueSet = Set<Int>()
-        total = total.filter { data in
+        favoriteMangaArr = favoriteMangaArr.filter { data in
             uniqueSet.insert(data.mal_id ?? 0).inserted
         }
-        total.sort{$0.rank! < $1.rank!}
-        favoriteMangaArr?.mangaArr = total
+        favoriteMangaArr.sort{$0.rank! < $1.rank!}
+        UserDefaults.standard.set(try? PropertyListEncoder().encode(favoriteMangaArr), forKey: UserDefaultKeyName.manga.rawValue)
     }
+    
+    func removeAnimeFavorite(targetAnimeData:animeData){
+        favoriteAnimeArr = favoriteAnimeArr.filter { info in
+            info.mal_id != targetAnimeData.mal_id
+        }
+        favoriteAnimeArr.sort{$0.rank! < $1.rank!}
+        UserDefaults.standard.set(try? PropertyListEncoder().encode(favoriteAnimeArr), forKey: UserDefaultKeyName.anime.rawValue)
+    }
+    
+    func removeMangaFavorite(targetMangaData:mangaData){
+        favoriteMangaArr = favoriteMangaArr.filter { info in
+            info.mal_id != targetMangaData.mal_id
+        }
+        favoriteMangaArr.sort{$0.rank! < $1.rank!}
+        UserDefaults.standard.set(try? PropertyListEncoder().encode(favoriteMangaArr), forKey: UserDefaultKeyName.manga.rawValue)
+    }
+    
     
     
 }

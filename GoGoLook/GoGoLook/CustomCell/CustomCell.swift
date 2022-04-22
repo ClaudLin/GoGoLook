@@ -21,15 +21,24 @@ class CustomCell: UITableViewCell {
         }
     }
     
+    private var currentType:type? = nil
+    
+    private enum type {
+        case anime
+        case manga
+    }
+    
     var anime:animeData? = nil
     {
         willSet {
             if let info = newValue {
+                currentType = .anime
                 titleLabel.text = "title:\(info.title ?? "")"
                 rankLabel.text = "rank:\(String(describing: info.rank!))"
                 startDateLabel.text = "start data:\(info.aired?.from ?? "")"
                 endDateLabel.text = "end data:\(info.aired?.to ?? "")"
                 imageURL = info.imagesObj?.jpgObj?.image_url ?? ""
+//                isFavorite = checkIsFavorite()
             }
         }
     }
@@ -38,11 +47,13 @@ class CustomCell: UITableViewCell {
     {
         willSet {
             if let info = newValue {
+                currentType = .manga
                 titleLabel.text = "title:\(info.title ?? "")"
                 rankLabel.text = "rank:\(String(describing: info.rank!))"
                 startDateLabel.text = "start data:\(info.published?.from ?? "")"
                 endDateLabel.text = "end data:\(info.published?.to ?? "")"
                 imageURL = info.imagesObj?.jpgObj?.image_url ?? ""
+//                isFavorite = checkIsFavorite()
             }
         }
     }
@@ -195,7 +206,29 @@ class CustomCell: UITableViewCell {
     
     @objc private func singleTap(recognizer:UITapGestureRecognizer){
         isFavorite = !isFavorite
+        switch currentType {
+        case .manga:
+            if let manga = manga {
+                FavoriteModel.shared.addMangaFavorite(newMangaData: manga)
+            }
+        case .anime:
+            if let anime = anime {
+                FavoriteModel.shared.addAnimeFavorite(newAnimeData: anime)
+            }
+        case .none:
+            break
+        }
+    }
+    
+    private func checkIsFavorite() -> Bool {
+        var result = false
+//        switch currentType{
+//            case.anime:
+//            let info
+//            case.manga:
+//        }
         
+        return result
     }
 
     

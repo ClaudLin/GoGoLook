@@ -8,10 +8,25 @@
 import UIKit
 
 class FavoriteVC: UIViewController {
+        
+    private var anime:[animeData] = {
+        if let data = UserDefaults.standard.value(forKey:UserDefaultKeyName.anime.rawValue) as? Data {
+            let arr = try? PropertyListDecoder().decode(Array<animeData>.self, from: data)
+            return arr ?? []
+        }
+        return []
+    }()
+
     
-    private var anime:animeInfo? = UserDefaults.standard.value(forKey: UserDefaultKeyName.anime.rawValue) as? animeInfo
+//    private var manga:[mangaData] = UserDefaults.standard.value(forKey: UserDefaultKeyName.manga.rawValue) as? mangaInfo
     
-    private var manga:mangaInfo? = UserDefaults.standard.value(forKey: UserDefaultKeyName.manga.rawValue) as? mangaInfo
+    private var manga:[mangaData] = {
+        if let data = UserDefaults.standard.value(forKey:UserDefaultKeyName.manga.rawValue) as? Data {
+            let arr = try? PropertyListDecoder().decode(Array<mangaData>.self, from: data)
+            return arr ?? []
+        }
+        return []
+    }()
     
     private var tableview:UITableView = {
         let tableview = UITableView()
@@ -61,12 +76,12 @@ extension FavoriteVC: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         var count:Int = 0
         
-        if section == 0, let animeCount = anime?.animeArr?.count {
-            count = animeCount
+        if section == 0 {
+            count = anime.count
         }
         
-        if section == 1, let mangaCount = anime?.animeArr?.count {
-            count = mangaCount
+        if section == 1 {
+            count = manga.count
         }
         
         return count
@@ -77,13 +92,16 @@ extension FavoriteVC: UITableViewDataSource {
         let row = indexPath.row
         let section = indexPath.section
         
-        if let info = anime?.animeArr?[row], section == 0 {
+        if section == 0 {
+            let info = anime[row]
             cell.anime = info
         }
         
-        if let info = manga?.mangaArr?[row], section == 1 {
+        if section == 1 {
+            let info = manga[row]
             cell.manga = info
         }
+        
         return cell
     }
     
@@ -111,7 +129,8 @@ extension FavoriteVC: UITableViewDelegate {
         let row = indexPath.row
         let section = indexPath.section
         
-        if let info = anime?.animeArr?[row], section == 0 {
+        if section == 0 {
+            let info = anime[row]
             if let urlStr = info.url, info.url != "" {
                 if let url = URL(string: urlStr){
                     let VC = WebviewVC(url: url)
@@ -120,7 +139,8 @@ extension FavoriteVC: UITableViewDelegate {
             }
         }
         
-        if let info = manga?.mangaArr?[row], section == 1 {
+        if section == 1 {
+            let info = manga[row]
             if let urlStr = info.url, info.url != "" {
                 if let url = URL(string: urlStr){
                     let VC = WebviewVC(url: url)

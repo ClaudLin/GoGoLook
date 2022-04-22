@@ -63,6 +63,7 @@ class ViewController: UIViewController {
     }
     
     private func UIInit(){
+        view.backgroundColor = .white
         view.addSubview(btn)
         
         btn.translatesAutoresizingMaskIntoConstraints = false
