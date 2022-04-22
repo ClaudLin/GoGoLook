@@ -140,7 +140,7 @@
 		59B8C58D2811BB9D00E15D2B /* GoGoLook */ = {
 			isa = PBXGroup;
 			children = (
-				59B8C5D52811BE5E00E15D2B /* CustomCell */,
+				59B8C5D52811BE5E00E15D2B /* TableViewCell */,
 				59B8C5D42811BE4500E15D2B /* ViewController */,
 				59B8C5D32811BE0800E15D2B /* APIService */,
 				59B8C5D22811BDC500E15D2B /* Model */,
@@ -201,7 +201,7 @@
 			path = ViewController;
 			sourceTree = "<group>";
 		};
-		59B8C5D52811BE5E00E15D2B /* CustomCell */ = {
+		59B8C5D52811BE5E00E15D2B /* TableViewCell */ = {
 			isa = PBXGroup;
 			children = (
 				59B8C5CA2811BC9D00E15D2B /* CustomCell.swift */,
@@ -209,7 +209,7 @@
 				59B8C5D6281330AF00E15D2B /* FavoriteCell.swift */,
 				59B8C5D7281330AF00E15D2B /* FavoriteCell.xib */,
 			);
-			path = CustomCell;
+			path = TableViewCell;
 			sourceTree = "<group>";
 		};
 		9322C119A233322B22039B1E /* Frameworks */ = {
