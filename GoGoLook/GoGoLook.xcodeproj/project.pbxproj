@@ -27,6 +27,8 @@
 		59B8C5CD2811BC9D00E15D2B /* CustomCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 59B8C5CB2811BC9D00E15D2B /* CustomCell.xib */; };
 		59B8C5CF2811BCA500E15D2B /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59B8C5CE2811BCA500E15D2B /* Extension.swift */; };
 		59B8C5D12811BCAD00E15D2B /* Common.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59B8C5D02811BCAD00E15D2B /* Common.swift */; };
+		59B8C5D8281330AF00E15D2B /* FavoriteCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59B8C5D6281330AF00E15D2B /* FavoriteCell.swift */; };
+		59B8C5D9281330AF00E15D2B /* FavoriteCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 59B8C5D7281330AF00E15D2B /* FavoriteCell.xib */; };
 		B46A8257F0C4A635F06933CC /* Pods_GoGoLookTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F996A83E311F8810C4EC4126 /* Pods_GoGoLookTests.framework */; };
 		EEFC5C7A859FB29202D0C2F1 /* Pods_GoGoLook_GoGoLookUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B525979F8526149CE4B2F603 /* Pods_GoGoLook_GoGoLookUITests.framework */; };
 /* End PBXBuildFile section */
@@ -76,6 +78,8 @@
 		59B8C5CB2811BC9D00E15D2B /* CustomCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CustomCell.xib; sourceTree = "<group>"; };
 		59B8C5CE2811BCA500E15D2B /* Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
 		59B8C5D02811BCAD00E15D2B /* Common.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Common.swift; sourceTree = "<group>"; };
+		59B8C5D6281330AF00E15D2B /* FavoriteCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteCell.swift; sourceTree = "<group>"; };
+		59B8C5D7281330AF00E15D2B /* FavoriteCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FavoriteCell.xib; sourceTree = "<group>"; };
 		5A691C47F076A2F1AFBB7AE2 /* Pods_GoGoLook.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GoGoLook.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		83D5972EEE3DAED3846A45E4 /* Pods-GoGoLook.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GoGoLook.release.xcconfig"; path = "Target Support Files/Pods-GoGoLook/Pods-GoGoLook.release.xcconfig"; sourceTree = "<group>"; };
 		B525979F8526149CE4B2F603 /* Pods_GoGoLook_GoGoLookUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GoGoLook_GoGoLookUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -202,6 +206,8 @@
 			children = (
 				59B8C5CA2811BC9D00E15D2B /* CustomCell.swift */,
 				59B8C5CB2811BC9D00E15D2B /* CustomCell.xib */,
+				59B8C5D6281330AF00E15D2B /* FavoriteCell.swift */,
+				59B8C5D7281330AF00E15D2B /* FavoriteCell.xib */,
 			);
 			path = CustomCell;
 			sourceTree = "<group>";
@@ -342,6 +348,7 @@
 				59B8C5982811BBA100E15D2B /* Assets.xcassets in Resources */,
 				59B8C5CD2811BC9D00E15D2B /* CustomCell.xib in Resources */,
 				59B8C5962811BB9D00E15D2B /* Main.storyboard in Resources */,
+				59B8C5D9281330AF00E15D2B /* FavoriteCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -469,6 +476,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				59B8C5D8281330AF00E15D2B /* FavoriteCell.swift in Sources */,
 				59B8C5C12811BC6F00E15D2B /* Model.swift in Sources */,
 				59B8C5932811BB9D00E15D2B /* ViewController.swift in Sources */,
 				59B8C5CC2811BC9D00E15D2B /* CustomCell.swift in Sources */,

@@ -1,25 +1,13 @@
 //
-//  CustomCell.swift
-//  Gogolook
+//  FavoriteCell.swift
+//  GoGoLook
 //
-//  Created by 林書郁 on 2022/4/20.
+//  Created by 林書郁 on 2022/4/23.
 //
 
 import UIKit
 
-class CustomCell: UITableViewCell {
-    
-    var isFavorite = false
-    {
-        willSet {
-            if newValue {
-                favoriteBtn.setImage(UIImage(systemName: "heart.fill"), for: .normal)
-            }else{
-                favoriteBtn.setImage(UIImage(systemName: "heart"), for: .normal)
-            }
-            
-        }
-    }
+class FavoriteCell: UITableViewCell {
     
     private var currentType:type? = nil
     
@@ -57,13 +45,6 @@ class CustomCell: UITableViewCell {
             }
         }
     }
-    
-    private var favoriteBtn:UIButton = {
-        let btn = UIButton()
-        btn.setImage(UIImage(systemName: "heart"), for: .normal)
-        btn.imageView?.contentMode = .scaleAspectFit
-        return btn
-    }()
 
     private var imageview:UIImageView = {
         let imageview = UIImageView()
@@ -76,16 +57,6 @@ class CustomCell: UITableViewCell {
         stackView.axis = .vertical
         stackView.distribution = .equalCentering
         stackView.alignment = .leading
-        stackView.spacing = 5
-        stackView.backgroundColor = .clear
-        return stackView
-    }()
-    
-    private let rightStackView:UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .horizontal
-        stackView.distribution = .equalCentering
-        stackView.alignment = .center
         stackView.spacing = 5
         stackView.backgroundColor = .clear
         return stackView
@@ -135,7 +106,6 @@ class CustomCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         UIInit()
-        addGesture()
         // Initialization code
     }
 
@@ -177,58 +147,16 @@ class CustomCell: UITableViewCell {
         leftStackView.addArrangedSubview(startDateLabel)
         leftStackView.addArrangedSubview(endDateLabel)
         
-        addSubview(rightStackView)
+        addSubview(imageview)
+        imageview.translatesAutoresizingMaskIntoConstraints = false
         
-        rightStackView.translatesAutoresizingMaskIntoConstraints = false
-        
-        rightStackView.leadingAnchor.constraint(equalTo: leftStackView.trailingAnchor).isActive = true
-        rightStackView.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
-        rightStackView.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.3).isActive = true
-        rightStackView.heightAnchor.constraint(equalTo: self.heightAnchor).isActive = true
-        
+        imageview.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
+        imageview.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
         imageview.widthAnchor.constraint(equalToConstant: 40).isActive = true
         imageview.heightAnchor.constraint(equalToConstant: 40).isActive = true
-        
-        favoriteBtn.widthAnchor.constraint(equalToConstant: 40).isActive = true
-        favoriteBtn.heightAnchor.constraint(equalToConstant: 40).isActive = true
-        
-        rightStackView.addArrangedSubview(imageview)
-        rightStackView.addArrangedSubview(favoriteBtn)
-        
+                
         
     }
     
-    private func addGesture(){
-        let singleFinger = UITapGestureRecognizer( target:self, action:#selector(singleTap(recognizer:)))
-        singleFinger.numberOfTapsRequired = 2
-        self.addGestureRecognizer(singleFinger)
-    }
     
-    @objc private func singleTap(recognizer:UITapGestureRecognizer){
-        isFavorite = !isFavorite
-        switch currentType {
-        case .manga:
-            if let manga = manga {
-                FavoriteModel.shared.addMangaFavorite(newMangaData: manga)
-            }
-        case .anime:
-            if let anime = anime {
-                FavoriteModel.shared.addAnimeFavorite(newAnimeData: anime)
-            }
-        case .none:
-            break
-        }
-    }
-    
-    private func checkIsFavorite() -> Bool {
-        var result = false
-//        switch currentType{
-//            case.anime:
-//            let info
-//            case.manga:
-//        }
-        
-        return result
-    }
-
 }

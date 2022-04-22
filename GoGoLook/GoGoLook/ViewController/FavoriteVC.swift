@@ -30,7 +30,7 @@ class FavoriteVC: UIViewController {
     
     private var tableview:UITableView = {
         let tableview = UITableView()
-        tableview.register(UINib(nibName: "CustomCell", bundle: nil), forCellReuseIdentifier: "CustomCell")
+        tableview.register(UINib(nibName: "FavoriteCell", bundle: nil), forCellReuseIdentifier: "FavoriteCell")
         return tableview
     }()
     
@@ -88,7 +88,7 @@ extension FavoriteVC: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableview.dequeueReusableCell(withIdentifier: "CustomCell", for: indexPath) as! CustomCell
+        let cell = tableview.dequeueReusableCell(withIdentifier: "FavoriteCell", for: indexPath) as! FavoriteCell
         let row = indexPath.row
         let section = indexPath.section
         
