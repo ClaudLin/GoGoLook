@@ -17,9 +17,6 @@ class FavoriteVC: UIViewController {
         return []
     }()
 
-    
-//    private var manga:[mangaData] = UserDefaults.standard.value(forKey: UserDefaultKeyName.manga.rawValue) as? mangaInfo
-    
     private var manga:[mangaData] = {
         if let data = UserDefaults.standard.value(forKey:UserDefaultKeyName.manga.rawValue) as? Data {
             let arr = try? PropertyListDecoder().decode(Array<mangaData>.self, from: data)

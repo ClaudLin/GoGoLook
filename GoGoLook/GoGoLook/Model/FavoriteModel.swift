@@ -11,21 +11,34 @@ class FavoriteModel {
     
     static let shared = FavoriteModel()
     
-    private var favoriteAnimeArr = UserDefaults.standard.value(forKey: UserDefaultKeyName.anime.rawValue) as? [animeData] ?? []
+    private var favoriteAnimeArr:[animeData] = {
+        if let data = UserDefaults.standard.value(forKey:UserDefaultKeyName.anime.rawValue) as? Data {
+            let arr = try? PropertyListDecoder().decode(Array<animeData>.self, from: data)
+            return arr ?? []
+        }
+        return []
+    }()
+    
     {
         willSet{
             UserDefaults.standard.set(try? PropertyListEncoder().encode(newValue), forKey: UserDefaultKeyName.anime.rawValue)
         }
     }
     
-    private var favoriteMangaArr = UserDefaults.standard.value(forKey: UserDefaultKeyName.manga.rawValue) as? [mangaData] ?? []
+    private var favoriteMangaArr:[mangaData] = {
+        if let data = UserDefaults.standard.value(forKey:UserDefaultKeyName.manga.rawValue) as? Data {
+            let arr = try? PropertyListDecoder().decode(Array<mangaData>.self, from: data)
+            return arr ?? []
+        }
+        return []
+    }()
+    
     {
         willSet{
             UserDefaults.standard.set(try? PropertyListEncoder().encode(newValue), forKey: UserDefaultKeyName.manga.rawValue)
         }
     }
     
-
     func addAnimeFavorite(newAnimeData:animeData){
         var arr = favoriteAnimeArr
         arr.append(newAnimeData)

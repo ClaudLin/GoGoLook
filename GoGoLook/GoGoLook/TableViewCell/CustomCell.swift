@@ -30,30 +30,30 @@ class CustomCell: UITableViewCell {
     
     var anime:animeData? = nil
     {
-        willSet {
-            if let info = newValue {
+        didSet {
+            if let info = oldValue {
                 currentType = .anime
                 titleLabel.text = "title:\(info.title ?? "")"
                 rankLabel.text = "rank:\(String(describing: info.rank!))"
                 startDateLabel.text = "start data:\(info.aired?.from ?? "")"
                 endDateLabel.text = "end data:\(info.aired?.to ?? "")"
                 imageURL = info.imagesObj?.jpgObj?.image_url ?? ""
-//                isFavorite = checkIsFavorite()
+                isFavorite = checkIsFavorite()
             }
         }
     }
     
     var manga:mangaData? = nil
     {
-        willSet {
-            if let info = newValue {
+        didSet {
+            if let info = oldValue {
                 currentType = .manga
                 titleLabel.text = "title:\(info.title ?? "")"
                 rankLabel.text = "rank:\(String(describing: info.rank!))"
                 startDateLabel.text = "start data:\(info.published?.from ?? "")"
                 endDateLabel.text = "end data:\(info.published?.to ?? "")"
                 imageURL = info.imagesObj?.jpgObj?.image_url ?? ""
-//                isFavorite = checkIsFavorite()
+                isFavorite = checkIsFavorite()
             }
         }
     }
@@ -209,11 +209,19 @@ class CustomCell: UITableViewCell {
         switch currentType {
         case .manga:
             if let manga = manga {
-                FavoriteModel.shared.addMangaFavorite(newMangaData: manga)
+                if isFavorite {
+                    FavoriteModel.shared.addMangaFavorite(newMangaData: manga)
+                }else{
+                    FavoriteModel.shared.removeMangaFavorite(targetMangaData: manga)
+                }
             }
         case .anime:
             if let anime = anime {
-                FavoriteModel.shared.addAnimeFavorite(newAnimeData: anime)
+                if isFavorite {
+                    FavoriteModel.shared.addAnimeFavorite(newAnimeData: anime)
+                }else{
+                    FavoriteModel.shared.removeAnimeFavorite(targetAnimeData: anime)
+                }
             }
         case .none:
             break
@@ -222,11 +230,38 @@ class CustomCell: UITableViewCell {
     
     private func checkIsFavorite() -> Bool {
         var result = false
-//        switch currentType{
-//            case.anime:
-//            let info
-//            case.manga:
-//        }
+        switch currentType{
+            case.anime:
+                let info:[animeData] = {
+                    if let data = UserDefaults.standard.value(forKey:UserDefaultKeyName.anime.rawValue) as? Data {
+                        let arr = try? PropertyListDecoder().decode(Array<animeData>.self, from: data)
+                        return arr ?? []
+                    }
+                    return []
+                }()
+                for i in info {
+                    if i.mal_id == anime?.mal_id {
+                        result = true
+                        break
+                    }
+                }
+            case.manga:
+                let info:[mangaData] = {
+                    if let data = UserDefaults.standard.value(forKey:UserDefaultKeyName.manga.rawValue) as? Data {
+                        let arr = try? PropertyListDecoder().decode(Array<mangaData>.self, from: data)
+                        return arr ?? []
+                    }
+                    return []
+                }()
+                for i in info {
+                    if i.mal_id == anime?.mal_id {
+                        result = true
+                        break
+                    }
+                }
+            case .none:
+                break
+        }
         
         return result
     }
