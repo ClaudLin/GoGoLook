@@ -14,47 +14,56 @@ class FavoriteModel {
     private var favoriteAnimeArr = UserDefaults.standard.value(forKey: UserDefaultKeyName.anime.rawValue) as? [animeData] ?? []
     {
         willSet{
-            print(newValue)
+            UserDefaults.standard.set(try? PropertyListEncoder().encode(newValue), forKey: UserDefaultKeyName.anime.rawValue)
         }
     }
     
     private var favoriteMangaArr = UserDefaults.standard.value(forKey: UserDefaultKeyName.manga.rawValue) as? [mangaData] ?? []
+    {
+        willSet{
+            UserDefaults.standard.set(try? PropertyListEncoder().encode(newValue), forKey: UserDefaultKeyName.manga.rawValue)
+        }
+    }
     
 
     func addAnimeFavorite(newAnimeData:animeData){
-        favoriteAnimeArr.append(newAnimeData)
+        var arr = favoriteAnimeArr
+        arr.append(newAnimeData)
         var uniqueSet = Set<Int>()
-        favoriteAnimeArr = favoriteAnimeArr.filter { data in
+        arr = arr.filter { data in
             uniqueSet.insert(data.mal_id ?? 0).inserted
         }
-        favoriteAnimeArr.sort{$0.rank! < $1.rank!}
-        UserDefaults.standard.set(try? PropertyListEncoder().encode(favoriteAnimeArr), forKey: UserDefaultKeyName.anime.rawValue)
+        arr.sort{$0.rank! < $1.rank!}
+        favoriteAnimeArr = arr
     }
     
     func addMangaFavorite(newMangaData:mangaData){
-        favoriteMangaArr.append(newMangaData)
+        var arr = favoriteMangaArr
+        arr.append(newMangaData)
         var uniqueSet = Set<Int>()
-        favoriteMangaArr = favoriteMangaArr.filter { data in
+        arr = arr.filter { data in
             uniqueSet.insert(data.mal_id ?? 0).inserted
         }
-        favoriteMangaArr.sort{$0.rank! < $1.rank!}
-        UserDefaults.standard.set(try? PropertyListEncoder().encode(favoriteMangaArr), forKey: UserDefaultKeyName.manga.rawValue)
+        arr.sort{$0.rank! < $1.rank!}
+        favoriteMangaArr = arr
     }
     
     func removeAnimeFavorite(targetAnimeData:animeData){
-        favoriteAnimeArr = favoriteAnimeArr.filter { info in
+        var arr = favoriteAnimeArr
+        arr = arr.filter { info in
             info.mal_id != targetAnimeData.mal_id
         }
-        favoriteAnimeArr.sort{$0.rank! < $1.rank!}
-        UserDefaults.standard.set(try? PropertyListEncoder().encode(favoriteAnimeArr), forKey: UserDefaultKeyName.anime.rawValue)
+        arr.sort{$0.rank! < $1.rank!}
+        favoriteAnimeArr = arr
     }
     
     func removeMangaFavorite(targetMangaData:mangaData){
-        favoriteMangaArr = favoriteMangaArr.filter { info in
+        var arr = favoriteMangaArr
+        arr = arr.filter { info in
             info.mal_id != targetMangaData.mal_id
         }
-        favoriteMangaArr.sort{$0.rank! < $1.rank!}
-        UserDefaults.standard.set(try? PropertyListEncoder().encode(favoriteMangaArr), forKey: UserDefaultKeyName.manga.rawValue)
+        arr.sort{$0.rank! < $1.rank!}
+        favoriteMangaArr = arr
     }
     
     
