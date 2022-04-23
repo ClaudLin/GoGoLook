@@ -9,7 +9,7 @@ import UIKit
 
 class FavoriteVC: UIViewController {
         
-    private var anime:[animeData] = {
+    private var animeDataArr:[animeData] = {
         if let data = UserDefaults.standard.value(forKey:UserDefaultKeyName.anime.rawValue) as? Data {
             let arr = try? PropertyListDecoder().decode(Array<animeData>.self, from: data)
             return arr ?? []
@@ -17,7 +17,7 @@ class FavoriteVC: UIViewController {
         return []
     }()
 
-    private var manga:[mangaData] = {
+    private var mangaDataArr:[mangaData] = {
         if let data = UserDefaults.standard.value(forKey:UserDefaultKeyName.manga.rawValue) as? Data {
             let arr = try? PropertyListDecoder().decode(Array<mangaData>.self, from: data)
             return arr ?? []
@@ -31,10 +31,32 @@ class FavoriteVC: UIViewController {
         return tableview
     }()
     
+    private var animeLimit = 5
+    
+    private var mangaLimit = 5
+    
+    private var animeDataOfTableView:[animeData] = []
+    
+    private var mangaDataOfTableView:[mangaData] = []
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        setData()
         // Do any additional setup after loading the view.
+    }
+    
+    private func setData(){
+        var animeIndex = 0
+        while animeIndex < animeLimit {
+            animeDataOfTableView.append(animeDataArr[animeIndex])
+            animeIndex = animeIndex + 1
+        }
+        var mangaIndex = 0
+        while mangaIndex < animeLimit {
+            mangaDataOfTableView.append(mangaDataArr[mangaIndex])
+            mangaIndex = mangaIndex + 1
+        }
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -42,7 +64,7 @@ class FavoriteVC: UIViewController {
         UIInit()
     }
     
-    private func reloadTableView(){
+    @objc private func reloadTableView(){
         DispatchQueue.main.async { [self] in
             tableview.reloadData()
         }
@@ -74,11 +96,11 @@ extension FavoriteVC: UITableViewDataSource {
         var count:Int = 0
         
         if section == 0 {
-            count = anime.count
+            count = animeDataOfTableView.count
         }
         
         if section == 1 {
-            count = manga.count
+            count = mangaDataOfTableView.count
         }
         
         return count
@@ -90,12 +112,12 @@ extension FavoriteVC: UITableViewDataSource {
         let section = indexPath.section
         
         if section == 0 {
-            let info = anime[row]
+            let info = animeDataOfTableView[row]
             cell.anime = info
         }
         
         if section == 1 {
-            let info = manga[row]
+            let info = mangaDataOfTableView[row]
             cell.manga = info
         }
         
@@ -106,6 +128,37 @@ extension FavoriteVC: UITableViewDataSource {
 }
 
 extension FavoriteVC: UITableViewDelegate {
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        let section = indexPath.section
+        let row = indexPath.row
+        if section == 0 {
+            if row == animeDataOfTableView.count - 1 {
+                if animeDataOfTableView.count < animeDataArr.count {
+                    var index = animeDataOfTableView.count
+                    animeLimit = index + 5
+                    while index < animeLimit {
+                        animeDataOfTableView.append(animeDataArr[index])
+                        index = index + 1
+                    }
+                    self.perform(#selector(reloadTableView), with: nil, afterDelay: 1.0)
+                }
+            }
+        }
+        if section == 1 {
+            if row == mangaDataOfTableView.count - 1 {
+                if mangaDataOfTableView.count < mangaDataArr.count {
+                    var index = mangaDataOfTableView.count
+                    mangaLimit = index + 5
+                    while index < mangaLimit {
+                        mangaDataOfTableView.append(mangaDataArr[index])
+                        index = index + 1
+                    }
+                    self.perform(#selector(reloadTableView), with: nil, afterDelay: 1.0)
+                }
+            }
+        }
+    }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         
@@ -127,7 +180,7 @@ extension FavoriteVC: UITableViewDelegate {
         let section = indexPath.section
         
         if section == 0 {
-            let info = anime[row]
+            let info = animeDataOfTableView[row]
             if let urlStr = info.url, info.url != "" {
                 if let url = URL(string: urlStr){
                     let VC = WebviewVC(url: url)
@@ -137,7 +190,7 @@ extension FavoriteVC: UITableViewDelegate {
         }
         
         if section == 1 {
-            let info = manga[row]
+            let info = mangaDataOfTableView[row]
             if let urlStr = info.url, info.url != "" {
                 if let url = URL(string: urlStr){
                     let VC = WebviewVC(url: url)
