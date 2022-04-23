@@ -42,6 +42,14 @@ class ViewController: UIViewController {
         }
     }
     
+    private var animeLimit = 5
+    
+    private var mangaLimit = 5
+    
+    private var animeDataArr:[animeData] = []
+    
+    private var mangaDataArr:[mangaData] = []
+    
     @objc private func btnAction( btn:UIButton){
         let VC = FavoriteVC()
         navigationController?.pushViewController(VC, animated: true)
@@ -61,7 +69,7 @@ class ViewController: UIViewController {
         UIInit()
     }
     
-    private func reloadTableView(){
+    @objc private func reloadTableView(){
         DispatchQueue.main.async { [self] in
             tableview.reloadData()
         }
@@ -98,6 +106,13 @@ class ViewController: UIViewController {
             
             do {
                 anime = try JSONDecoder().decode(animeInfo.self, from:data)
+                if let animeArr = anime?.animeArr {
+                    var index = 0
+                    while index < animeLimit {
+                        animeDataArr.append(animeArr[index])
+                        index = index + 1
+                    }
+                }
             }catch{
                 print(error)
             }
@@ -112,6 +127,13 @@ class ViewController: UIViewController {
             
             do {
                 manga = try JSONDecoder().decode(mangaInfo.self, from:data)
+                if let mangaArr = manga?.mangaArr {
+                    var index = 0
+                    while index < mangaLimit {
+                        mangaDataArr.append(mangaArr[index])
+                        index = index + 1
+                    }
+                }
             }catch{
                 print(error)
             }
@@ -165,12 +187,12 @@ extension ViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         var count:Int = 0
         
-        if section == 0, let animeCount = anime?.animeArr?.count {
-            count = animeCount
+        if section == 0 {
+            count = animeDataArr.count
         }
         
-        if section == 1, let mangaCount = anime?.animeArr?.count {
-            count = mangaCount
+        if section == 1 {
+            count = mangaDataArr.count
         }
         
         return count
@@ -198,6 +220,43 @@ extension ViewController: UITableViewDataSource {
 }
 
 extension ViewController: UITableViewDelegate {
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        let section = indexPath.section
+        let row = indexPath.row
+        
+        if section == 0 {
+            if let animeArr = anime?.animeArr {
+                if row == animeDataArr.count - 1 {
+                    if animeDataArr.count < animeArr.count {
+                        var index = animeDataArr.count
+                        animeLimit = index + 5
+                        while index < animeLimit {
+                            animeDataArr.append(animeArr[index])
+                            index = index + 1
+                        }
+                        self.perform(#selector(reloadTableView), with: nil, afterDelay: 1.0)
+                    }
+                }
+            }
+        }
+        
+        if section == 1 {
+            if let mangaArr = manga?.mangaArr {
+                if row == mangaDataArr.count - 1 {
+                    if mangaDataArr.count < mangaArr.count {
+                        var index = mangaDataArr.count
+                        mangaLimit = index + 5
+                        while index < mangaLimit {
+                            mangaDataArr.append(mangaArr[index])
+                            index = index + 1
+                        }
+                        self.perform(#selector(reloadTableView), with: nil, afterDelay: 1.0)
+                    }
+                }
+            }
+        }
+    }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         
