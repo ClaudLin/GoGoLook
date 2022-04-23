@@ -9,6 +9,11 @@ import UIKit
 
 class ViewController: UIViewController {
     
+    enum cellType {
+        case anime
+        case manga
+    }
+    
     private var btn:UIButton = {
         let btn = UIButton()
         btn.setTitle("My favorite", for: .normal)
@@ -114,6 +119,41 @@ class ViewController: UIViewController {
             print(e.localizedDescription)
         }
     }
+    
+    private func checkIsFavorite(type:cellType ,mal_id:Int?) -> Bool {
+        var result = false
+        switch type{
+            case.anime:
+                let info:[animeData] = {
+                    if let data = UserDefaults.standard.value(forKey:UserDefaultKeyName.anime.rawValue) as? Data {
+                        let arr = try? PropertyListDecoder().decode(Array<animeData>.self, from: data)
+                        return arr ?? []
+                    }
+                    return []
+                }()
+                for i in info {
+                    if i.mal_id == mal_id {
+                        result = true
+                        break
+                    }
+                }
+            case.manga:
+                let info:[mangaData] = {
+                    if let data = UserDefaults.standard.value(forKey:UserDefaultKeyName.manga.rawValue) as? Data {
+                        let arr = try? PropertyListDecoder().decode(Array<mangaData>.self, from: data)
+                        return arr ?? []
+                    }
+                    return []
+                }()
+                for i in info {
+                    if i.mal_id == mal_id {
+                        result = true
+                        break
+                    }
+                }
+        }
+        return result
+    }
 }
 
 extension ViewController: UITableViewDataSource {
@@ -143,11 +183,14 @@ extension ViewController: UITableViewDataSource {
         
         if let info = anime?.animeArr?[row], section == 0 {
             cell.anime = info
+            cell.isFavorite = checkIsFavorite(type: .anime, mal_id: info.mal_id)
         }
         
         if let info = manga?.mangaArr?[row], section == 1 {
             cell.manga = info
+            cell.isFavorite = checkIsFavorite(type: .manga, mal_id: info.mal_id)
         }
+        
         return cell
     }
     

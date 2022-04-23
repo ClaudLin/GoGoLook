@@ -30,30 +30,28 @@ class CustomCell: UITableViewCell {
     
     var anime:animeData? = nil
     {
-        didSet {
-            if let info = anime {
+        willSet {
+            if let info = newValue {
                 currentType = .anime
                 titleLabel.text = "title:\(info.title ?? "")"
                 rankLabel.text = "rank:\(String(describing: info.rank!))"
                 startDateLabel.text = "start data:\(info.aired?.from ?? "")"
                 endDateLabel.text = "end data:\(info.aired?.to ?? "")"
                 imageURL = info.imagesObj?.jpgObj?.image_url ?? ""
-                isFavorite = checkIsFavorite()
             }
         }
     }
     
     var manga:mangaData? = nil
     {
-        didSet {
-            if let info = manga {
+        willSet {
+            if let info = newValue {
                 currentType = .manga
                 titleLabel.text = "title:\(info.title ?? "")"
                 rankLabel.text = "rank:\(String(describing: info.rank!))"
                 startDateLabel.text = "start data:\(info.published?.from ?? "")"
                 endDateLabel.text = "end data:\(info.published?.to ?? "")"
                 imageURL = info.imagesObj?.jpgObj?.image_url ?? ""
-                isFavorite = checkIsFavorite()
             }
         }
     }
@@ -196,8 +194,7 @@ class CustomCell: UITableViewCell {
         rightStackView.addArrangedSubview(imageview)
 
         favoriteBtn.addTarget(self, action: #selector(addFavorite), for: .touchUpInside)
-        
-        
+
     }
     
     @objc private func addFavorite(sender: UIButton){
@@ -250,7 +247,7 @@ class CustomCell: UITableViewCell {
                     return []
                 }()
                 for i in info {
-                    if i.mal_id == anime?.mal_id {
+                    if i.mal_id == manga?.mal_id {
                         result = true
                         break
                     }
@@ -258,7 +255,6 @@ class CustomCell: UITableViewCell {
             case .none:
                 break
         }
-        
         return result
     }
 
