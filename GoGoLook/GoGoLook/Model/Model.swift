@@ -211,7 +211,7 @@ struct animeInfo:Codable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         pagination = try container.decodeIfPresent(paginationObj.self, forKey: .pagination)
         animeArr = try container.decodeIfPresent([animeData].self, forKey: .animeArr)
-        animeArr!.sort{$0.rank! < $1.rank!}
+//        animeArr!.sort{$0.rank! < $1.rank!}
     }
 }
 
@@ -230,6 +230,6 @@ struct mangaInfo:Codable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         pagination = try container.decodeIfPresent(paginationObj.self, forKey: .pagination)
         mangaArr = try container.decodeIfPresent([mangaData].self, forKey: .mangaArr)
-        mangaArr!.sort{$0.rank! < $1.rank!}
+//        mangaArr!.sort{$0.rank! < $1.rank!}
     }
 }

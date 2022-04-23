@@ -31,7 +31,7 @@ class CustomCell: UITableViewCell {
     var anime:animeData? = nil
     {
         didSet {
-            if let info = oldValue {
+            if let info = anime {
                 currentType = .anime
                 titleLabel.text = "title:\(info.title ?? "")"
                 rankLabel.text = "rank:\(String(describing: info.rank!))"
@@ -46,7 +46,7 @@ class CustomCell: UITableViewCell {
     var manga:mangaData? = nil
     {
         didSet {
-            if let info = oldValue {
+            if let info = manga {
                 currentType = .manga
                 titleLabel.text = "title:\(info.title ?? "")"
                 rankLabel.text = "rank:\(String(describing: info.rank!))"
@@ -62,6 +62,7 @@ class CustomCell: UITableViewCell {
         let btn = UIButton()
         btn.setImage(UIImage(systemName: "heart"), for: .normal)
         btn.imageView?.contentMode = .scaleAspectFit
+        btn.isUserInteractionEnabled = true
         return btn
     }()
 
@@ -134,9 +135,8 @@ class CustomCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        UIInit()
-        addGesture()
         // Initialization code
+        UIInit()
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -192,19 +192,15 @@ class CustomCell: UITableViewCell {
         favoriteBtn.widthAnchor.constraint(equalToConstant: 40).isActive = true
         favoriteBtn.heightAnchor.constraint(equalToConstant: 40).isActive = true
         
-        rightStackView.addArrangedSubview(imageview)
         rightStackView.addArrangedSubview(favoriteBtn)
+        rightStackView.addArrangedSubview(imageview)
+
+        favoriteBtn.addTarget(self, action: #selector(addFavorite), for: .touchUpInside)
         
         
     }
     
-    private func addGesture(){
-        let singleFinger = UITapGestureRecognizer( target:self, action:#selector(singleTap(recognizer:)))
-        singleFinger.numberOfTapsRequired = 2
-        self.addGestureRecognizer(singleFinger)
-    }
-    
-    @objc private func singleTap(recognizer:UITapGestureRecognizer){
+    @objc private func addFavorite(sender: UIButton){
         isFavorite = !isFavorite
         switch currentType {
         case .manga:
