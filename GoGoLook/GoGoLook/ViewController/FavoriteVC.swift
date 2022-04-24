@@ -50,11 +50,17 @@ class FavoriteVC: UIViewController {
         while animeIndex < animeLimit {
             animeDataOfTableView.append(animeDataArr[animeIndex])
             animeIndex = animeIndex + 1
+            if animeIndex + 1 > animeDataArr.count {
+                break
+            }
         }
         var mangaIndex = 0
         while mangaIndex < animeLimit {
             mangaDataOfTableView.append(mangaDataArr[mangaIndex])
             mangaIndex = mangaIndex + 1
+            if mangaIndex + 1 > mangaDataArr.count {
+                break
+            }
         }
         
     }
@@ -71,7 +77,6 @@ class FavoriteVC: UIViewController {
     }
     
     private func UIInit(){
-        
         tableview.delegate = self
         tableview.dataSource = self
         view.addSubview(tableview)
@@ -82,6 +87,13 @@ class FavoriteVC: UIViewController {
         tableview.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         tableview.widthAnchor.constraint(equalToConstant: getFrame().width).isActive = true
         tableview.heightAnchor.constraint(equalToConstant: getFrame().height).isActive = true
+    }
+    
+    private func Alert( title:String? ,message:String? ,ActionTitle:String){
+        let alertVC = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let alertAction = UIAlertAction(title: ActionTitle, style: .default, handler: nil)
+        alertVC.addAction(alertAction)
+        present(alertVC, animated: true)
     }
 
 }
@@ -186,6 +198,8 @@ extension FavoriteVC: UITableViewDelegate {
                     let VC = WebviewVC(url: url)
                     navigationController?.pushViewController(VC, animated: false)
                 }
+            }else{
+                Alert(title: "URL error", message: nil, ActionTitle: "OK")
             }
         }
         
@@ -196,6 +210,8 @@ extension FavoriteVC: UITableViewDelegate {
                     let VC = WebviewVC(url: url)
                     navigationController?.pushViewController(VC, animated: false)
                 }
+            }else{
+                Alert(title: "URL error", message: nil, ActionTitle: "OK")
             }
         }
     }

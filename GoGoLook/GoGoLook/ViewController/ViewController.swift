@@ -176,6 +176,13 @@ class ViewController: UIViewController {
         }
         return result
     }
+    
+    private func Alert( title:String? ,message:String? ,ActionTitle:String){
+        let alertVC = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let alertAction = UIAlertAction(title: ActionTitle, style: .default, handler: nil)
+        alertVC.addAction(alertAction)
+        present(alertVC, animated: true)
+    }
 }
 
 extension ViewController: UITableViewDataSource {
@@ -283,6 +290,8 @@ extension ViewController: UITableViewDelegate {
                     let VC = WebviewVC(url: url)
                     navigationController?.pushViewController(VC, animated: true)
                 }
+            }else{
+                Alert(title: "URL error", message: nil, ActionTitle: "OK")
             }
         }
         
@@ -292,6 +301,8 @@ extension ViewController: UITableViewDelegate {
                     let VC = WebviewVC(url: url)
                     navigationController?.pushViewController(VC, animated: true)
                 }
+            }else{
+                Alert(title: "URL error", message: nil, ActionTitle: "OK")
             }
         }
     }
