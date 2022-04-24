@@ -47,23 +47,24 @@ class FavoriteVC: UIViewController {
     }
     
     private func setData(){
-        var animeIndex = 0
-        while animeIndex < animeLimit {
-            animeDataOfTableView.append(animeDataArr[animeIndex])
-            animeIndex = animeIndex + 1
-            if animeIndex + 1 > animeDataArr.count {
-                break
+        if animeDataArr.count > 0 , mangaDataArr.count > 0 {
+            var animeIndex = 0
+            while animeIndex < animeLimit {
+                animeDataOfTableView.append(animeDataArr[animeIndex])
+                animeIndex = animeIndex + 1
+                if animeIndex + 1 > animeDataArr.count {
+                    break
+                }
+            }
+            var mangaIndex = 0
+            while mangaIndex < mangaLimit {
+                mangaDataOfTableView.append(mangaDataArr[mangaIndex])
+                mangaIndex = mangaIndex + 1
+                if mangaIndex + 1 > mangaDataArr.count {
+                    break
+                }
             }
         }
-        var mangaIndex = 0
-        while mangaIndex < animeLimit {
-            mangaDataOfTableView.append(mangaDataArr[mangaIndex])
-            mangaIndex = mangaIndex + 1
-            if mangaIndex + 1 > mangaDataArr.count {
-                break
-            }
-        }
-        
     }
     
     override func viewDidAppear(_ animated: Bool) {

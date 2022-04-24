@@ -24,6 +24,7 @@ class ViewController: UIViewController {
     
     private var tableview:UITableView = {
         let tableview = UITableView()
+        tableview.accessibilityIdentifier = "GoGoLookTableView"
         tableview.register(UINib(nibName: "CustomCell", bundle: nil), forCellReuseIdentifier: "CustomCell")
         return tableview
     }()
@@ -60,6 +61,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "List"
+        navigationController?.navigationBar.accessibilityIdentifier = "GoGoLook"
         getData()
         // Do any additional setup after loading the view.
     }

@@ -8,6 +8,10 @@
 import XCTest
 
 class GoGoLookUITests: XCTestCase {
+    
+    override func setUp() {
+        super.setUp()
+    }
 
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.
@@ -22,10 +26,12 @@ class GoGoLookUITests: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
 
-    func testExample() throws {
+    func testMyFavorite() throws {
         // UI tests must launch the application that they test.
         let app = XCUIApplication()
         app.launch()
+        app.buttons["My Favorite"].press(forDuration: 5)
+        app.navigationBars["GoGoLook"].buttons["List"].press(forDuration: 10)
 
         // Use recording to get started writing UI tests.
         // Use XCTAssert and related functions to verify your tests produce the correct results.
