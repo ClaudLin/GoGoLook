@@ -301,9 +301,9 @@ extension ViewController: UITableViewDelegate {
                 if let url = URL(string: urlStr){
                     let VC = WebviewVC(url: url)
                     navigationController?.pushViewController(VC, animated: true)
+                }else{
+                    Alert(title: "URL error", message: nil, ActionTitle: "OK")
                 }
-            }else{
-                Alert(title: "URL error", message: nil, ActionTitle: "OK")
             }
         }
         
@@ -312,9 +312,9 @@ extension ViewController: UITableViewDelegate {
                 if let url = URL(string: urlStr){
                     let VC = WebviewVC(url: url)
                     navigationController?.pushViewController(VC, animated: true)
+                }else{
+                    Alert(title: "URL error", message: nil, ActionTitle: "OK")
                 }
-            }else{
-                Alert(title: "URL error", message: nil, ActionTitle: "OK")
             }
         }
     }
