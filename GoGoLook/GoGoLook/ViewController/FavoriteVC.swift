@@ -41,6 +41,7 @@ class FavoriteVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        title = "My Favorite"
         setData()
         // Do any additional setup after loading the view.
     }

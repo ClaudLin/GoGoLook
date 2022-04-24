@@ -16,7 +16,7 @@ class ViewController: UIViewController {
     
     private var btn:UIButton = {
         let btn = UIButton()
-        btn.setTitle("My favorite", for: .normal)
+        btn.setTitle("My Favorite", for: .normal)
         btn.setTitleColor(.black, for: .normal)
         btn.addTarget(self, action: #selector(btnAction(btn:)), for: .touchUpInside)
         return btn
@@ -111,6 +111,9 @@ class ViewController: UIViewController {
                     while index < animeLimit {
                         animeDataArr.append(animeArr[index])
                         index = index + 1
+                        if index + 1 > animeDataArr.count {
+                            break
+                        }
                     }
                 }
             }catch{
@@ -132,6 +135,9 @@ class ViewController: UIViewController {
                     while index < mangaLimit {
                         mangaDataArr.append(mangaArr[index])
                         index = index + 1
+                        if index + 1 > mangaDataArr.count {
+                            break
+                        }
                     }
                 }
             }catch{
@@ -241,6 +247,9 @@ extension ViewController: UITableViewDelegate {
                         while index < animeLimit {
                             animeDataArr.append(animeArr[index])
                             index = index + 1
+                            if index + 1 > animeDataArr.count {
+                                break
+                            }
                         }
                         self.perform(#selector(reloadTableView), with: nil, afterDelay: 1.0)
                     }
@@ -257,6 +266,9 @@ extension ViewController: UITableViewDelegate {
                         while index < mangaLimit {
                             mangaDataArr.append(mangaArr[index])
                             index = index + 1
+                            if index + 1 > mangaDataArr.count {
+                                break
+                            }
                         }
                         self.perform(#selector(reloadTableView), with: nil, afterDelay: 1.0)
                     }
